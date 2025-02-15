@@ -1,0 +1,113 @@
+@use 'sass:color';
+
+.container {
+    max-width: 300px;
+    margin: 0 auto;
+
+    .input-name-container{
+        display: flex;
+        flex-direction:row;
+        justify-content: space-around;
+        margin-bottom: 10px;
+
+        label {
+            align-self: end;
+        }
+
+        .add-player {
+            width: 25px;
+        }
+    }
+
+    .input-score {
+        -webkit-appearance: none;
+        width: 30px;
+    }
+
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+    .validate {
+        padding-left: 10px;
+        padding-right: 10px;
+        margin: auto;
+    }
+}
+
+.flex{
+  display: flex;
+}
+  
+  .player-item {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+
+    .player-name{
+      width: 80px;
+    }
+
+    .total {
+      margin-left: auto;
+      font-size: 4vh;
+    }
+
+    .top-player {
+      height: 1em;
+    }
+  }
+  
+  .player-item:last-child {
+    border-bottom: none;
+  }
+
+  .remove-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: red;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .player-name-container:hover .remove-btn {
+    display: inline;
+  }
+
+  .btn {
+    border: none;
+    border-radius: 3px;
+    background-color: #dfd39d;
+    color: #3D5442;
+  }
+
+  .btn:hover {
+    cursor: pointer;
+    background-color: adjust-color($color: #dfd39d,$lightness: -10%);
+    transition: 0.2s;
+}
+
+@media only screen and (max-width: 600px) {
+    .player-item {
+      margin-bottom: 20px;
+      .total {
+        font-size: 3vh;
+      }
+    }
+
+    .validate {
+        width: 100%;
+    }
+
+
+
+
+  }
+  
+  
+  
