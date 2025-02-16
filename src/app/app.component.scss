@@ -4,15 +4,34 @@
     max-width: 300px;
     margin: 0 auto;
 
-    .input-name-container{
+    .list-container {
+      max-height: 90vh;
+      overflow-y: scroll;
+    }
+    .input-name-container {
         display: flex;
         flex-direction:row;
         justify-content: space-around;
         margin-bottom: 10px;
+        height: 20px;
 
-        label {
-            align-self: end;
+        .playerInput{
+          width: 85%;
+          border-color: grey;
+          border-width: 0 0 1px 0;
+          border-style: solid;
+          transition: border-color 0.3s;
+
+          &:focus{
+            outline: none;
+            box-shadow: none;
+            border-color: #dfd39d;
+            border-width: 0 0 2px 0;
+            transition: all 0.3s;
+  
+          }
         }
+
 
         .add-player {
             width: 25px;
@@ -21,11 +40,22 @@
 
     .input-score {
         -webkit-appearance: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
         width: 30px;
+        border-radius: 4px;
+
+        &:focus {
+          outline: none;
+          border-color: #dfd39d;
+
+        }
     }
 
     input[type=number] {
+        appearance: none;
         -moz-appearance: textfield;
+
     }
 
     .validate {
@@ -93,6 +123,9 @@
 }
 
 @media only screen and (max-width: 600px) {
+  .container{
+    max-width: 80vw;
+  }
     .player-item {
       margin-bottom: 20px;
       .total {

@@ -1,10 +1,9 @@
 <div class="container">
   <div class="input-name-container">
-    <label for="player-name">Pseudo</label>
-    <input id="player-name" (keyup.enter)="addPlayer()" [formControl]="playerName" />
+    <input class="playerInput" id="player-name" (keyup.enter)="addPlayer()" [formControl]="playerName" placeholder="Pseudo"/>
     <button class="btn add-player" (click)="addPlayer()">+</button>
   </div>
-  <div>
+  <div class="list-container">
     @for (player of players; track $index) {
       <div class="player-item">
           <button (click)="removePlayer($index)" class="btn" tabindex="-1">X</button>
