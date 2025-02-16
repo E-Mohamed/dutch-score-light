@@ -99,7 +99,8 @@
         "deploy": {
           "builder": "angular-cli-ghpages:deploy",
           "options": {
-    "baseHref": "/dutch-score-light/"
+            "baseHref": "/dutch-score-light/",
+            "repo": "https://github.com/E-Mohamed/dutch-score-light.git"
   }
         }
       }
