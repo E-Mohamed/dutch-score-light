@@ -27,7 +27,6 @@ export class SupabaseService {
     const playerDTOList = playerScore.map(
       (player) => new PlayerDTO(player, gamePoolId),
     );
-    console.log(playerDTOList);
     return from(this.supabase.from("scores").insert(playerDTOList));
   }
 

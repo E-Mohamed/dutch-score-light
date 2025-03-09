@@ -7,6 +7,7 @@ import { SupabaseService } from "./services/supabase.service";
 import { catchError, map, Observable, throwError } from "rxjs";
 import { GamePool } from "./models/game-pool";
 import { PostgrestSingleResponse } from "@supabase/supabase-js";
+import { environment } from "../environments/environment";
 
 @Component({
   selector: "app-root",
@@ -65,16 +66,18 @@ export class AppComponent implements OnInit {
   }
 
   public saveScore(): void {
-    // First open pop up to choose a game pool
-    this.supabaseService.insertScore(this.players, 2).subscribe({
-      next: () => {
-        alert("score saved");
-      },
-      error: (err) => {
-        alert("Score not saved");
-        console.error("Insertion failed", err);
-      },
-    });
+    // TODO: First open pop up to choose a game pool
+    this.supabaseService
+      .insertScore(this.players, environment.poolId)
+      .subscribe({
+        next: () => {
+          alert("Score saved");
+        },
+        error: (err) => {
+          alert("Score not saved");
+          console.error("Insertion failed", err);
+        },
+      });
   }
 
   private isScoreExisting(): boolean {
