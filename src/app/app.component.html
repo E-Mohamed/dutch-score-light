@@ -1,28 +1,42 @@
 <div class="container">
   <div class="input-name-container">
-    <input class="playerInput" id="player-name" (keyup.enter)="addPlayer()" [formControl]="playerName" placeholder="Pseudo"/>
+    <input
+      class="playerInput"
+      id="player-name"
+      (keyup.enter)="addPlayer()"
+      [formControl]="playerName"
+      placeholder="Pseudo"
+    />
     <button class="btn add-player" (click)="addPlayer()">+</button>
   </div>
   <div class="list-container">
     @for (player of players; track $index) {
       <div class="player-item">
-          <button (click)="removePlayer($index)" class="btn" tabindex="-1">X</button>
-        <span class='player-name'>{{ player.name | titlecase}}</span>
-        <input type="number" [formControl]="players[$index].scoreCtrl" min="0" class="input-score"> 
+        <button (click)="removePlayer($index)" class="btn" tabindex="-1">
+          X
+        </button>
+        <span class="player-name">{{ player.name | titlecase }}</span>
+        <input
+          type="number"
+          [formControl]="players[$index].scoreCtrl"
+          min="0"
+          class="input-score"
+        />
         @if (min === player.total) {
-          <img class="top-player" src='crown.svg'>
+          <img class="top-player" src="crown.svg" />
         }
         @if (max === player.total) {
-          <img class="top-player" src='turtle.svg'>
+          <img class="top-player" src="turtle.svg" />
         }
-        <span class='total'>{{ player.total }}</span>
+        <span class="total">{{ player.total }}</span>
       </div>
     }
   </div>
   <div class="flex">
-    <button (click)="computeTotal()" class="btn validate ripple">Validate round</button>
+    <button (click)="computeTotal()" class="btn validate ripple">
+      Validate round
+    </button>
+    <button (click)="saveScore()" class="btn validate ripple">Save data</button>
   </div>
-
 </div>
-
 <router-outlet />

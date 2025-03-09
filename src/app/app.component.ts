@@ -1,26 +1,36 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from "@angular/core";
+import { RouterOutlet } from "@angular/router";
+import { FormControl, ReactiveFormsModule, Validators } from "@angular/forms";
+import { CommonModule } from "@angular/common";
+import { Player } from "./models/player";
+import { SupabaseService } from "./services/supabase.service";
+import { catchError, map, Observable, throwError } from "rxjs";
+import { GamePool } from "./models/game-pool";
+import { PostgrestSingleResponse } from "@supabase/supabase-js";
 
-interface Player {
-  id: string,
-  name: string,
-  scoreCtrl: FormControl,
-  total: number
-}
 @Component({
-  selector: 'app-root',
+  selector: "app-root",
   standalone: true,
   imports: [RouterOutlet, ReactiveFormsModule, CommonModule],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  templateUrl: "./app.component.html",
+  styleUrl: "./app.component.scss",
 })
-export class AppComponent {
-  playerName: FormControl = new FormControl('', [Validators.required, Validators.maxLength(24)]);
+export class AppComponent implements OnInit {
+  private supabaseService = inject(SupabaseService);
+
+  playerName: FormControl = new FormControl("", [
+    Validators.required,
+    Validators.maxLength(24),
+  ]);
   players: Player[] = [];
+  // Dumb value to init min max
   min: number = -1;
   max: number = 99;
+  gamePools$: Observable<any>;
+
+  public ngOnInit(): void {
+    this.supabaseService.getGamePool();
+  }
 
   public addPlayer(): void {
     if (this.playerName.valid) {
@@ -28,23 +38,23 @@ export class AppComponent {
         id: crypto.randomUUID(),
         name: this.playerName.value,
         scoreCtrl: new FormControl(0),
-        total: 0
-      }
+        total: 0,
+      };
       this.players.push(iPlayer);
-      this.playerName.setValue('');
+      this.playerName.setValue("");
     }
     if (this.isScoreExisting()) {
-      this.computeTotal()
+      this.computeTotal();
     }
   }
 
   public computeTotal(): void {
-    this.players.forEach(player => {
+    this.players.forEach((player) => {
       player.total += player.scoreCtrl.value;
       player.scoreCtrl.setValue(0);
-    })
+    });
 
-    const playerScoreList = this.players.map(player => player.total); 
+    const playerScoreList = this.players.map((player) => player.total);
     this.min = Math.min(...playerScoreList);
     this.max = Math.max(...playerScoreList);
   }
@@ -54,7 +64,20 @@ export class AppComponent {
     this.computeTotal();
   }
 
+  public saveScore(): void {
+    // First open pop up to choose a game pool
+    this.supabaseService.insertScore(this.players, 2).subscribe({
+      next: () => {
+        alert("score saved");
+      },
+      error: (err) => {
+        alert("Score not saved");
+        console.error("Insertion failed", err);
+      },
+    });
+  }
+
   private isScoreExisting(): boolean {
-    return this.players.some(player => player.total > 0);
+    return this.players.some((player) => player.total > 0);
   }
 }
