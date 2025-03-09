@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy-ghpage": "ng deploy --base-href=/dutch-score-light/"
+    "deploy-ghpage": "ng deploy"
   },
   "private": true,
   "dependencies": {
