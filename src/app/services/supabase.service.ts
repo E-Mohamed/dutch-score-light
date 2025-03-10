@@ -39,7 +39,6 @@ export class SupabaseService {
           console.error("Error while fetching gamePool", response.error);
         if (response.data) {
           this.stateService.gamePoolsSubject.next(response.data);
-          console.log(this.stateService.gamePoolsSubject);
         }
       });
   }

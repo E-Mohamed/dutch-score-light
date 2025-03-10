@@ -1,18 +1,23 @@
-import { Component, inject, OnInit } from "@angular/core";
+import {
+  Component,
+  inject,
+  OnInit,
+  signal,
+  WritableSignal,
+} from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import { FormControl, ReactiveFormsModule, Validators } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { Player } from "./models/player";
 import { SupabaseService } from "./services/supabase.service";
-import { catchError, map, Observable, throwError } from "rxjs";
-import { GamePool } from "./models/game-pool";
-import { PostgrestSingleResponse } from "@supabase/supabase-js";
+import { Observable } from "rxjs";
 import { environment } from "../environments/environment";
+import { ModalComponent } from "./components/modal/modal.component";
 
 @Component({
   selector: "app-root",
   standalone: true,
-  imports: [RouterOutlet, ReactiveFormsModule, CommonModule],
+  imports: [RouterOutlet, ReactiveFormsModule, CommonModule, ModalComponent],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
 })
@@ -28,6 +33,8 @@ export class AppComponent implements OnInit {
   min: number = -1;
   max: number = 99;
   gamePools$: Observable<any>;
+  isModalOpen: boolean;
+  isDisabled: WritableSignal<boolean> = signal(true);
 
   public ngOnInit(): void {
     this.supabaseService.getGamePool();
@@ -58,6 +65,8 @@ export class AppComponent implements OnInit {
     const playerScoreList = this.players.map((player) => player.total);
     this.min = Math.min(...playerScoreList);
     this.max = Math.max(...playerScoreList);
+
+    if (this.isDisabled()) this.isDisabled.set(false);
   }
 
   public removePlayer(playerIdx: number): void {
@@ -65,13 +74,20 @@ export class AppComponent implements OnInit {
     this.computeTotal();
   }
 
-  public saveScore(): void {
-    // TODO: First open pop up to choose a game pool
+  public openSaveScoreModal(): void {
+    this.isModalOpen = true;
+  }
+
+  public closeModal(): void {
+    this.isModalOpen = false;
+  }
+  public onConfirmSave(): void {
     this.supabaseService
       .insertScore(this.players, environment.poolId)
       .subscribe({
         next: () => {
           alert("Score saved");
+          this.isModalOpen = false;
         },
         error: (err) => {
           alert("Score not saved");

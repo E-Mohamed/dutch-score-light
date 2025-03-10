@@ -1,0 +1,8 @@
+<div class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" @slideUpDown (click)="$event.stopPropagation()">
+    <h2>Confirm save score</h2>
+    <p>Lorem ipsum for score saving</p>
+    <button (click)="onConfirm()" class="btn btn-pad">Save</button>
+    <button (click)="closeModal()" class="btn btn-pad">Close</button>
+  </div>
+</div>

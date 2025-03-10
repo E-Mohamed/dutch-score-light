@@ -33,10 +33,19 @@
     }
   </div>
   <div class="flex">
-    <button (click)="computeTotal()" class="btn validate ripple">
+    <button (click)="computeTotal()" class="btn btn-pad validate ripple">
       Validate round
     </button>
-    <button (click)="saveScore()" class="btn validate ripple">Save data</button>
+    <button
+      (click)="openSaveScoreModal()"
+      class="btn btn-pad validate ripple"
+      [disabled]="isDisabled()"
+    >
+      Save data
+    </button>
   </div>
 </div>
+@if (isModalOpen) {
+  <app-modal (close)="closeModal()" (confirm)="onConfirmSave()"></app-modal>
+}
 <router-outlet />

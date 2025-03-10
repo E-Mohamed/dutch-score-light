@@ -1,0 +1,28 @@
+@use "../variables";
+
+.btn {
+  border: none;
+  border-radius: 3px;
+  background-color: variables.$secondary;
+  color: variables.$primary;
+
+  &-pad {
+    padding: 5px;
+  }
+
+  &:disabled {
+    background-color: lighten(variables.$secondary, 10%);
+    color: darken(variables.$primary, 30%);
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.btn:hover {
+  cursor: pointer;
+  background-color: adjust-color(
+    $color: variables.$secondary,
+    $lightness: -10%
+  );
+  transition: 0.2s;
+}

@@ -1,5 +1,6 @@
 @use "sass:color";
-
+@use "../styles/variables";
+@use "../styles/components/button";
 .container {
   max-width: 300px;
   margin: 0 auto;
@@ -25,7 +26,7 @@
       &:focus {
         outline: none;
         box-shadow: none;
-        border-color: #dfd39d;
+        border-color: variables.$secondary;
         border-width: 0 0 1.7px 0;
         transition: all 0.2s;
       }
@@ -45,7 +46,7 @@
 
     &:focus {
       outline: none;
-      border-color: #dfd39d;
+      border-color: variables.$secondary;
     }
   }
 
@@ -105,19 +106,6 @@
 
 .player-name-container:hover .remove-btn {
   display: inline;
-}
-
-.btn {
-  border: none;
-  border-radius: 3px;
-  background-color: #dfd39d;
-  color: #3d5442;
-}
-
-.btn:hover {
-  cursor: pointer;
-  background-color: adjust-color($color: #dfd39d, $lightness: -10%);
-  transition: 0.2s;
 }
 
 @media only screen and (max-width: 600px) {
