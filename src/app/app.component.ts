@@ -13,11 +13,18 @@ import { SupabaseService } from "./services/supabase.service";
 import { Observable } from "rxjs";
 import { environment } from "../environments/environment";
 import { ModalComponent } from "./components/modal/modal.component";
+import { SidebarComponent } from "./components/sidebar/sidebar.component";
 
 @Component({
   selector: "app-root",
   standalone: true,
-  imports: [RouterOutlet, ReactiveFormsModule, CommonModule, ModalComponent],
+  imports: [
+    RouterOutlet,
+    ReactiveFormsModule,
+    CommonModule,
+    ModalComponent,
+    SidebarComponent,
+  ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
 })
@@ -35,6 +42,8 @@ export class AppComponent implements OnInit {
   gamePools$: Observable<any>;
   isModalOpen: boolean;
   isDisabled: WritableSignal<boolean> = signal(true);
+
+  isSidebarOpen = false;
 
   public ngOnInit(): void {
     this.supabaseService.getGamePool();
@@ -94,6 +103,15 @@ export class AppComponent implements OnInit {
           console.error("Insertion failed", err);
         },
       });
+  }
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  onCloseSidebar() {
+    console.log("get emmited envent");
+    this.toggleSidebar();
   }
 
   private isScoreExisting(): boolean {

@@ -1,6 +1,44 @@
 @use "sass:color";
 @use "../styles/variables";
 @use "../styles/components/button";
+
+/* ====== HEADER STYLES ====== */
+header {
+  height: 60px;
+  background: #333;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.menu-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+.main-content {
+  padding: 80px 20px; /* Offset for header */
+  transition: margin-left 0.3s ease-in-out;
+}
+
+/* ====== RESPONSIVE DESIGN ====== */
+@media screen and (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    max-width: none;
+  }
+}
+
 .container {
   max-width: 300px;
   margin: 0 auto;
