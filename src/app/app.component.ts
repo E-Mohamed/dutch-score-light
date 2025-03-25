@@ -1,6 +1,7 @@
 import {
   Component,
   inject,
+  OnDestroy,
   OnInit,
   signal,
   WritableSignal,
@@ -10,7 +11,7 @@ import { FormControl, ReactiveFormsModule, Validators } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { Player } from "./models/player";
 import { SupabaseService } from "./services/supabase.service";
-import { Observable } from "rxjs";
+import { catchError, Observable, Subject, takeUntil, throwError } from "rxjs";
 import { environment } from "../environments/environment";
 import { ModalComponent } from "./components/modal/modal.component";
 
@@ -21,7 +22,7 @@ import { ModalComponent } from "./components/modal/modal.component";
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   private supabaseService = inject(SupabaseService);
 
   playerName: FormControl = new FormControl("", [
@@ -35,16 +36,29 @@ export class AppComponent implements OnInit {
   gamePools$: Observable<any>;
   isModalOpen: boolean;
   isDisabled: WritableSignal<boolean> = signal(true);
+  private destroy$ = new Subject<void>();
 
   public ngOnInit(): void {
     this.supabaseService.getGamePool();
   }
 
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+  }
+
   public addPlayer(): void {
+    var newName = "";
+    const cheaterNames = ["Amine", "Eurico", "Soufiane"];
     if (this.playerName.valid) {
+      if (this.playerName.value.toLowerCase() === "mohamed".toLowerCase()) {
+        const randomIndex = Math.floor(Math.random() * cheaterNames.length);
+        newName = "Cheater " + cheaterNames[randomIndex];
+      } else {
+        newName = this.playerName.value;
+      }
       const iPlayer: Player = {
         id: crypto.randomUUID(),
-        name: this.playerName.value,
+        name: newName,
         scoreCtrl: new FormControl(0),
         total: 0,
       };
@@ -84,13 +98,19 @@ export class AppComponent implements OnInit {
   public onConfirmSave(): void {
     this.supabaseService
       .insertScore(this.players, environment.poolId)
+      .pipe(
+        takeUntil(this.destroy$),
+        catchError((err) => {
+          return throwError(() => err.message);
+        }),
+      )
       .subscribe({
         next: () => {
           alert("Score saved");
           this.isModalOpen = false;
         },
         error: (err) => {
-          alert("Score not saved");
+          alert("Score not saved: \n " + err);
           console.error("Insertion failed", err);
         },
       });
