@@ -5,7 +5,7 @@ import {
   PostgrestSingleResponse,
   SupabaseClient,
 } from "@supabase/supabase-js";
-import { from, map, tap, throwError } from "rxjs";
+import { from } from "rxjs";
 import { Player, PlayerDTO } from "../models/player";
 import { GamePool } from "../models/game-pool";
 import { StateService } from "./state.service";
@@ -27,14 +27,7 @@ export class SupabaseService {
     const playerDTOList = playerScore.map(
       (player) => new PlayerDTO(player, gamePoolId),
     );
-    return from(this.supabase.from("scores").insert(playerDTOList)).pipe(
-      map((response) => {
-        if (response.error) {
-          throw response.error;
-        }
-        return response;
-      }),
-    );
+    return from(this.supabase.from("scores").insert(playerDTOList));
   }
 
   public getGamePool(): void {
