@@ -2,6 +2,7 @@
 @use "../styles/variables";
 @use "../styles/components/button";
 
+<<<<<<< HEAD
 /* ====== HEADER STYLES ====== */
 header {
   height: 60px;
@@ -39,6 +40,37 @@ header {
   }
 }
 
+=======
+/* temp code  */
+.alert {
+  padding: 20px;
+  background-color: #f44336;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}
+.small-info {
+  font-size: 10px;
+  font-style: italic;
+  margin: 0;
+  margin-top: 10px;
+}
+/* end temp code */
+>>>>>>> main
 .container {
   max-width: 300px;
   margin: 0 auto;
