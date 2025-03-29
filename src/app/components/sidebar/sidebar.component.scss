@@ -37,36 +37,43 @@
 
 /* Sidebar Links */
 .sidebar {
+  padding-right: 10px;
+  padding-left: 20px;
+
   .title {
     font-size: 14px;
-    padding-left: 15px;
+    padding-left: 10px;
   }
   nav {
     display: flex;
     flex-direction: column;
-    padding-left: 20px;
 
-    a {
+    span {
       text-decoration: none;
-      padding-bottom: 15px;
+      padding: 10px;
       display: flex;
       align-items: center;
       font-size: 18px;
       transition: background 0.3s;
+      border-radius: 20px;
+      margin-bottom: 10px;
 
       &:hover {
         cursor: pointer;
-        background: lighten(variables.$secondary, 3%);
+        background: lighten(variables.$secondary, 10%);
+      }
+
+      &.active-link {
+        background: lighten(variables.$secondary, 10%);
+        font-weight: 600;
       }
 
       img {
         max-width: 25px;
+        margin-right: 10px;
       }
     }
   }
-}
-
-.sidebar nav a:hover {
 }
 
 /* ====== DARK OVERLAY ====== */

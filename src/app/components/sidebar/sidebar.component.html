@@ -1,11 +1,19 @@
 <div class="sidebar" [class.open]="isSidebarOpen">
   <p class="title">Menu</p>
   <nav>
-    <a routerLink="/" (click)="onCloseSidebar()"
-      ><img class="note" src="note.svg" />Score</a
+    <span
+      routerLink="/"
+      routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{ exact: true }"
+      (click)="onCloseSidebar()"
+      ><img class="note" src="note.svg" />Score</span
     >
-    <a routerLink="/stats" (click)="onCloseSidebar()"
-      ><img class="stat" src="stat.svg" />Stats</a
+    <span
+      routerLink="/stats"
+      routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{ exact: true }"
+      (click)="onCloseSidebar()"
+      ><img class="stat" src="stat.svg" />Stats</span
     >
   </nav>
 </div>

@@ -1,0 +1,125 @@
+@use "../../../styles/variables";
+@use "../../../styles/components/button";
+
+.container {
+  max-width: 300px;
+  margin: 0 auto;
+
+  .list-container {
+    max-height: 90vh;
+    overflow-y: scroll;
+  }
+  .input-name-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    height: 20px;
+
+    .playerInput {
+      width: 85%;
+      border-color: grey;
+      border-width: 0 0 1px 0;
+      border-style: solid;
+      transition: border-color 0.3s;
+
+      &:focus {
+        outline: none;
+        box-shadow: none;
+        border-color: variables.$secondary;
+        border-width: 0 0 1.7px 0;
+        transition: all 0.2s;
+      }
+    }
+
+    .add-player {
+      width: 25px;
+    }
+  }
+
+  .input-score {
+    -webkit-appearance: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 30px;
+    border-radius: 4px;
+
+    &:focus {
+      outline: none;
+      border-color: variables.$secondary;
+    }
+  }
+
+  input[type="number"] {
+    appearance: none;
+    -moz-appearance: textfield;
+  }
+
+  .validate {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: auto;
+  }
+}
+
+.flex {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.player-item {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+
+  .player-name {
+    width: 80px;
+  }
+
+  .total {
+    margin-left: auto;
+    font-size: 4vh;
+  }
+
+  .top-player {
+    height: 1em;
+  }
+}
+
+.player-item:last-child {
+  border-bottom: none;
+}
+
+.remove-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: red;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.player-name-container:hover .remove-btn {
+  display: inline;
+}
+
+@media only screen and (max-width: 600px) {
+  .container {
+    max-width: 80vw;
+  }
+  .player-item {
+    margin-bottom: 20px;
+    .total {
+      font-size: 3vh;
+    }
+  }
+
+  .validate {
+    width: 100%;
+  }
+}

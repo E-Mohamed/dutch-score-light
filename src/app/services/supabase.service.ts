@@ -5,7 +5,7 @@ import {
   PostgrestSingleResponse,
   SupabaseClient,
 } from "@supabase/supabase-js";
-import { from } from "rxjs";
+import { from, map } from "rxjs";
 import { Player, PlayerDTO } from "../models/player";
 import { GamePool } from "../models/game-pool";
 import { StateService } from "./state.service";
@@ -27,7 +27,14 @@ export class SupabaseService {
     const playerDTOList = playerScore.map(
       (player) => new PlayerDTO(player, gamePoolId),
     );
-    return from(this.supabase.from("scores").insert(playerDTOList));
+    return from(this.supabase.from("scores").insert(playerDTOList)).pipe(
+      map((response) => {
+        if (response.error) {
+          throw response.error;
+        }
+        return response;
+      }),
+    );
   }
 
   public getGamePool(): void {
@@ -41,5 +48,29 @@ export class SupabaseService {
           this.stateService.gamePoolsSubject.next(response.data);
         }
       });
+  }
+
+  public getStatsV1() {
+    return from(
+      this.supabase
+        .from("scores")
+        .select(
+          `
+        name,
+        nb_game:name.count(),
+        best_score:score.min(),
+        max_score:score.max(),
+        total:score.sum()
+      `,
+        )
+        .eq("pool_id", environment.poolId),
+    ).pipe(
+      map((response) => {
+        if (response.error) {
+          throw response.error;
+        }
+        return response.data;
+      }),
+    );
   }
 }

@@ -1,0 +1,7 @@
+<div *ngFor="let player of playerData$ | async">
+  <h4>{{ player.name }}</h4>
+  <p>Played game: {{ player.nb_game }}</p>
+  <p>Best score: {{ player.best_score }}</p>
+  <p>Highest score: {{ player.max_score }}</p>
+  <p>Total score: {{ player.total }}</p>
+</div>
