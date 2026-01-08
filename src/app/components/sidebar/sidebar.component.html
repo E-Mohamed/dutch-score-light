@@ -7,14 +7,16 @@
       [routerLinkActiveOptions]="{ exact: true }"
       (click)="onCloseSidebar()"
       ><img class="note" src="note.svg" />Score</span
-    >
-    <span
-      routerLink="/stats"
-      routerLinkActive="active-link"
-      [routerLinkActiveOptions]="{ exact: true }"
-      (click)="onCloseSidebar()"
-      ><img class="stat" src="stat.svg" />Stats</span
-    >
-  </nav>
-</div>
-<div class="overlay" *ngIf="isSidebarOpen" (click)="onCloseSidebar()"></div>
+      >
+      <span
+        routerLink="/stats"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="onCloseSidebar()"
+        ><img class="stat" src="stat.svg" />Stats</span
+        >
+      </nav>
+    </div>
+    @if (isSidebarOpen) {
+      <div class="overlay" (click)="onCloseSidebar()"></div>
+    }

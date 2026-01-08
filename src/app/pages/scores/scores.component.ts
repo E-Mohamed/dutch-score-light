@@ -12,13 +12,14 @@ import { environment } from "../../../environments/environment";
 import { Player } from "../../models/player";
 import { SupabaseService } from "../../services/supabase.service";
 import { ModalComponent } from "../../components/modal/modal.component";
-import { CommonModule } from "@angular/common";
+import { CommonModule, TitleCasePipe } from "@angular/common";
 
 @Component({
     selector: "app-scores",
-    imports: [ModalComponent, ReactiveFormsModule, CommonModule],
+    standalone: true,
+    imports: [ModalComponent, ReactiveFormsModule, CommonModule, TitleCasePipe],
     templateUrl: "./scores.component.html",
-    styleUrl: "./scores.component.scss"
+    styleUrl: "./scores.component.scss",
 })
 export class ScoresComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();

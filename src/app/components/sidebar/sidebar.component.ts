@@ -1,4 +1,5 @@
-import { CommonModule } from "@angular/common";
+
+import { AsyncPipe } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,7 +14,8 @@ import { RouterModule } from "@angular/router";
 
 @Component({
     selector: "app-sidebar",
-    imports: [CommonModule, RouterModule],
+    standalone: true,
+    imports: [RouterModule, AsyncPipe],
     templateUrl: "./sidebar.component.html",
     styleUrl: "./sidebar.component.scss",
     changeDetection: ChangeDetectionStrategy.OnPush
