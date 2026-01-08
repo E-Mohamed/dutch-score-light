@@ -15,11 +15,10 @@ import { ModalComponent } from "../../components/modal/modal.component";
 import { CommonModule } from "@angular/common";
 
 @Component({
-  selector: "app-scores",
-  standalone: true,
-  imports: [ModalComponent, ReactiveFormsModule, CommonModule],
-  templateUrl: "./scores.component.html",
-  styleUrl: "./scores.component.scss",
+    selector: "app-scores",
+    imports: [ModalComponent, ReactiveFormsModule, CommonModule],
+    templateUrl: "./scores.component.html",
+    styleUrl: "./scores.component.scss"
 })
 export class ScoresComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();

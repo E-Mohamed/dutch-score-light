@@ -4,11 +4,10 @@ import { Observable, Subject } from "rxjs";
 import { CommonModule } from "@angular/common";
 
 @Component({
-  selector: "app-stats",
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: "./stats.component.html",
-  styleUrl: "./stats.component.scss",
+    selector: "app-stats",
+    imports: [CommonModule],
+    templateUrl: "./stats.component.html",
+    styleUrl: "./stats.component.scss"
 })
 export class StatsComponent implements OnInit, OnDestroy {
   private supabaseService = inject(SupabaseService);

@@ -12,12 +12,11 @@ import {
 import { RouterModule } from "@angular/router";
 
 @Component({
-  selector: "app-sidebar",
-  standalone: true,
-  imports: [CommonModule, RouterModule],
-  templateUrl: "./sidebar.component.html",
-  styleUrl: "./sidebar.component.scss",
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "app-sidebar",
+    imports: [CommonModule, RouterModule],
+    templateUrl: "./sidebar.component.html",
+    styleUrl: "./sidebar.component.scss",
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarComponent {
   @Input() isSidebarOpen = false;
