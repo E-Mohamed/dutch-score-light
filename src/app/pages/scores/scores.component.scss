@@ -1,6 +1,24 @@
 @use "../../../styles/variables";
 @use "../../../styles/components/button";
 
+.scores-layout {
+  display: flex;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.scores-section {
+  flex: 1;
+  max-width: 400px;
+}
+
+.graph-section {
+  flex: 1;
+  min-width: 300px;
+}
+
 .container {
   max-width: 300px;
   margin: 0 auto;
@@ -34,6 +52,9 @@
 
     .add-player {
       width: 25px;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      cursor: pointer;
     }
   }
 
@@ -60,6 +81,62 @@
     padding-right: 10px;
     margin: auto;
   }
+}
+
+.list-container {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.input-name-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  height: 20px;
+
+  .playerInput {
+    width: 85%;
+    border-color: grey;
+    border-width: 0 0 1px 0;
+    border-style: solid;
+    transition: border-color 0.3s;
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+      border-color: variables.$secondary;
+      border-width: 0 0 1.7px 0;
+      transition: all 0.2s;
+    }
+  }
+
+  .add-player {
+    width: 25px;
+  }
+}
+
+.input-score {
+  -webkit-appearance: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 30px;
+
+  &:focus {
+    outline: none;
+    border-color: variables.$secondary;
+  }
+}
+
+input[type="number"] {
+  appearance: none;
+  -moz-appearance: textfield;
+}
+
+.validate {
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: auto;
 }
 
 .flex {
@@ -108,10 +185,24 @@
   display: inline;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 768px) {
+  .scores-layout {
+    flex-direction: column;
+    padding: 10px;
+  }
+  
+  .scores-section {
+    max-width: 100%;
+  }
+  
+  .graph-section {
+    order: 2;
+  }
+  
   .container {
     max-width: 80vw;
   }
+  
   .player-item {
     margin-bottom: 20px;
     .total {

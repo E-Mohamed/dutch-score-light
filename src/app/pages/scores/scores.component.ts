@@ -1,4 +1,6 @@
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   inject,
   OnDestroy,
@@ -12,24 +14,27 @@ import { environment } from "../../../environments/environment";
 import { Player } from "../../models/player";
 import { SupabaseService } from "../../services/supabase.service";
 import { ModalComponent } from "../../components/modal/modal.component";
+import { ScoreGraphComponent } from "../../components/score-graph/score-graph.component";
 import { CommonModule, TitleCasePipe } from "@angular/common";
 
 @Component({
     selector: "app-scores",
     standalone: true,
-    imports: [ModalComponent, ReactiveFormsModule, CommonModule, TitleCasePipe],
+    imports: [ModalComponent, ScoreGraphComponent, ReactiveFormsModule, CommonModule, TitleCasePipe],
     templateUrl: "./scores.component.html",
     styleUrl: "./scores.component.scss",
 })
 export class ScoresComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   private supabaseService = inject(SupabaseService);
+  private cdr = inject(ChangeDetectorRef);
 
   playerName: FormControl = new FormControl("", [
     Validators.required,
     Validators.maxLength(24),
   ]);
   players: Player[] = [];
+  roundHistory = signal<number[][]>([]);
   // Dumb value to init min max
   min: number = -1;
   max: number = 99;
@@ -44,29 +49,47 @@ export class ScoresComponent implements OnInit, OnDestroy {
   }
   public ngOnDestroy(): void {
     this.destroy$.next();
+    this.destroy$.complete();
   }
 
   public addPlayer(): void {
-    if (this.playerName.valid) {
+    alert('addPlayer called');
+    const playerNameValue = this.playerName.value?.trim();
+    alert('Player name: ' + playerNameValue);
+    
+    if (playerNameValue && playerNameValue.length > 0 && playerNameValue.length <= 24) {
+      alert('Adding player: ' + playerNameValue);
       const iPlayer: Player = {
         id: crypto.randomUUID(),
-        name: this.playerName.value,
+        name: playerNameValue,
         scoreCtrl: new FormControl(0),
         total: 0,
       };
       this.players.push(iPlayer);
       this.playerName.setValue("");
+      this.cdr.detectChanges();
+      alert('Player added. Total players: ' + this.players.length);
+    } else {
+      alert('Validation failed');
     }
+    
     if (this.isScoreExisting()) {
       this.computeTotal();
     }
   }
 
   public computeTotal(): void {
-    this.players.forEach((player) => {
-      player.total += player.scoreCtrl.value;
+    const roundScores: number[] = [];
+    
+    this.players.forEach((player, index) => {
+      const score = player.scoreCtrl.value || 0;
+      roundScores[index] = score;
+      player.total += score;
       player.scoreCtrl.setValue(0);
     });
+
+    const currentHistory = this.roundHistory();
+    this.roundHistory.set([...currentHistory, roundScores]);
 
     const playerScoreList = this.players.map((player) => player.total);
     this.min = Math.min(...playerScoreList);
@@ -77,6 +100,15 @@ export class ScoresComponent implements OnInit, OnDestroy {
 
   public removePlayer(playerIdx: number): void {
     this.players.splice(playerIdx, 1);
+    
+    const currentHistory = this.roundHistory();
+    const updatedHistory = currentHistory.map(round => {
+      const newRound = [...round];
+      newRound.splice(playerIdx, 1);
+      return newRound;
+    });
+    this.roundHistory.set(updatedHistory);
+    
     this.computeTotal();
   }
 

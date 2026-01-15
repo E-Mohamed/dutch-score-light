@@ -1,0 +1,46 @@
+<div class="graph-container">
+  <h3>Score Progress</h3>
+  @if (playerLines.length > 0) {
+    <svg class="graph" viewBox="0 0 300 200">
+      <!-- Grid lines -->
+      <defs>
+        <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+          <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e0e0e0" stroke-width="0.5"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#grid)" />
+      
+      <!-- Player lines -->
+      @for (line of playerLines; track line.name) {
+        <path 
+          [attr.d]="getPathData(line.points)"
+          [attr.stroke]="line.color"
+          stroke-width="2"
+          fill="none"
+        />
+        
+        <!-- Points -->
+        @for (point of line.points; track $index) {
+          <circle
+            [attr.cx]="getScaledX(point.x)"
+            [attr.cy]="getScaledY(point.y)"
+            r="3"
+            [attr.fill]="line.color"
+          />
+        }
+      }
+    </svg>
+    
+    <!-- Legend -->
+    <div class="legend">
+      @for (line of playerLines; track line.name) {
+        <div class="legend-item">
+          <div class="legend-color" [style.background-color]="line.color"></div>
+          <span>{{ line.name }}</span>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="no-data">No score data yet</div>
+  }
+</div>
