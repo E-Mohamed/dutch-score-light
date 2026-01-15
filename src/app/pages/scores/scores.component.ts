@@ -53,25 +53,17 @@ export class ScoresComponent implements OnInit, OnDestroy {
   }
 
   public addPlayer(): void {
-    alert('addPlayer called');
-    const playerNameValue = this.playerName.value?.trim();
-    alert('Player name: ' + playerNameValue);
-    
-    if (playerNameValue && playerNameValue.length > 0 && playerNameValue.length <= 24) {
-      alert('Adding player: ' + playerNameValue);
+    if (this.playerName.valid) {
       const iPlayer: Player = {
         id: crypto.randomUUID(),
-        name: playerNameValue,
+        name: this.playerName.value,
         scoreCtrl: new FormControl(0),
         total: 0,
       };
       this.players.push(iPlayer);
       this.playerName.setValue("");
       this.cdr.detectChanges();
-      alert('Player added. Total players: ' + this.players.length);
-    } else {
-      alert('Validation failed');
-    }
+    } 
     
     if (this.isScoreExisting()) {
       this.computeTotal();
