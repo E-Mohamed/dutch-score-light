@@ -16,7 +16,7 @@
 
 .graph-section {
   flex: 1;
-  min-width: 300px;
+  min-width: 400px;
 }
 
 .container {
@@ -197,6 +197,8 @@ input[type="number"] {
   
   .graph-section {
     order: 2;
+    min-width: auto;
+    width: 100%;
   }
   
   .container {

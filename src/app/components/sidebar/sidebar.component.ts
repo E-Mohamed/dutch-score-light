@@ -15,7 +15,7 @@ import { RouterModule } from "@angular/router";
 @Component({
     selector: "app-sidebar",
     standalone: true,
-    imports: [RouterModule, AsyncPipe],
+    imports: [RouterModule],
     templateUrl: "./sidebar.component.html",
     styleUrl: "./sidebar.component.scss",
     changeDetection: ChangeDetectionStrategy.OnPush

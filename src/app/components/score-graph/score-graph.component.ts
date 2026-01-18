@@ -23,6 +23,7 @@ interface PlayerLine {
 export class ScoreGraphComponent implements OnChanges {
   @Input() players: Player[] = [];
   @Input() roundHistory: number[][] = [];
+  @Input() showCumulative = true;
 
   playerLines: PlayerLine[] = [];
   maxScore = 0;
@@ -32,7 +33,7 @@ export class ScoreGraphComponent implements OnChanges {
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['roundHistory'] || changes['players']) {
+    if (changes['roundHistory'] || changes['players'] || changes['showCumulative']) {
       this.updateGraph();
       this.cdr.markForCheck();
     }
@@ -46,7 +47,9 @@ export class ScoreGraphComponent implements OnChanges {
       color: this.colors[playerIndex % this.colors.length],
       points: this.roundHistory.map((round, roundIndex) => ({
         x: roundIndex,
-        y: this.calculateCumulativeScore(playerIndex, roundIndex)
+        y: this.showCumulative 
+          ? this.calculateCumulativeScore(playerIndex, roundIndex)
+          : round[playerIndex] || 0
       }))
     }));
 
@@ -69,12 +72,18 @@ export class ScoreGraphComponent implements OnChanges {
 
   getScaledX(x: number): number {
     const maxRounds = Math.max(this.roundHistory.length - 1, 1);
-    return (x / maxRounds) * 280 + 10;
+    return (x / maxRounds) * 280 + 50;
   }
 
   getScaledY(y: number): number {
     const range = this.maxScore - this.minScore || 1;
-    return 180 - ((y - this.minScore) / range) * 160 + 10;
+    return 180 - ((y - this.minScore) / range) * 160 + 20;
+  }
+
+  toggleGraphMode(): void {
+    this.showCumulative = !this.showCumulative;
+    this.updateGraph();
+    this.cdr.markForCheck();
   }
 
   getPathData(points: GraphPoint[]): string {
@@ -87,5 +96,18 @@ export class ScoreGraphComponent implements OnChanges {
     });
     
     return pathCommands.join(' ');
+  }
+
+  getYTicks(): number[] {
+    const ticks = [];
+    const step = Math.ceil((this.maxScore - this.minScore) / 5) || 1;
+    for (let i = this.minScore; i <= this.maxScore; i += step) {
+      ticks.push(i);
+    }
+    return ticks;
+  }
+
+  getRoundIndices(): number[] {
+    return Array.from({ length: this.roundHistory.length }, (_, i) => i);
   }
 }

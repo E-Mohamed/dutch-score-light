@@ -1,14 +1,43 @@
 <div class="graph-container">
-  <h3>Score Progress</h3>
+  <div class="graph-header">
+    <h3>{{ showCumulative ? 'Cumulative Scores' : 'Round Scores' }}</h3>
+    <button class="toggle-btn" (click)="toggleGraphMode()">
+      {{ showCumulative ? 'Show Round Scores' : 'Show Cumulative' }}
+    </button>
+  </div>
   @if (playerLines.length > 0) {
-    <svg class="graph" viewBox="0 0 300 200">
+    <svg class="graph" viewBox="0 0 350 250">
       <!-- Grid lines -->
       <defs>
         <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
           <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e0e0e0" stroke-width="0.5"/>
         </pattern>
       </defs>
-      <rect width="100%" height="100%" fill="url(#grid)" />
+      <rect x="40" y="10" width="280" height="180" fill="url(#grid)" />
+      
+      <!-- Y-axis labels -->
+      @for (tick of getYTicks(); track $index) {
+        <text 
+          x="35" 
+          [attr.y]="getScaledY(tick) + 3"
+          font-size="10" 
+          fill="#666"
+          text-anchor="end">
+          {{ tick }}
+        </text>
+      }
+      
+      <!-- X-axis labels -->
+      @for (roundIndex of getRoundIndices(); track roundIndex) {
+        <text 
+          [attr.x]="getScaledX(roundIndex)" 
+          y="210"
+          font-size="10" 
+          fill="#666" 
+          text-anchor="middle">
+          R{{ roundIndex + 1 }}
+        </text>
+      }
       
       <!-- Player lines -->
       @for (line of playerLines; track line.name) {
