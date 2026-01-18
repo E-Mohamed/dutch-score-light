@@ -4,15 +4,35 @@
   padding: 16px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   
-  h3 {
-    margin: 0 0 16px 0;
-    font-size: 18px;
-    color: #333;
+  .graph-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    
+    h3 {
+      margin: 0;
+      font-size: 18px;
+      color: #333;
+    }
+    
+    .toggle-btn {
+      padding: 6px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background: #f8f9fa;
+      cursor: pointer;
+      font-size: 12px;
+      
+      &:hover {
+        background: #e9ecef;
+      }
+    }
   }
   
   .graph {
     width: 100%;
-    height: 200px;
+    height: 300px;
     border: 1px solid #ddd;
     border-radius: 4px;
   }
@@ -54,7 +74,7 @@
     }
     
     .graph {
-      height: 150px;
+      height: 200px;
     }
     
     .legend {
